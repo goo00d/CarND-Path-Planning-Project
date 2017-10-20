@@ -11,7 +11,10 @@ In this project your goal is to safely navigate around a virtual highway with ot
 Each waypoint in the list contains  [x,y,s,dx,dy] values. x and y are the waypoint's map coordinate position, the s value is the distance along the road to get to that waypoint in meters, the dx and dy values define the unit normal vector pointing outward of the highway loop.
 
 The highway's waypoints loop around so the frenet s value, distance along the road, goes from 0 to 6945.554.
+### Model Documentation
+I generate path used previous path points and forward 30,60,90 meters in s of frenet,and advance d by change lane value,then convert s and d in frenet to world coodinates,then use spline to fit these points.
 
+Use fitted spline,and define a speed and a target distance 30 meters to interplot spline,to generate path,spline can deal with jerk naturally,so not worried jerk at all. 
 ## Basic Build Instructions
 
 1. Clone this repo.
