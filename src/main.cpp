@@ -252,7 +252,7 @@ int main() {
                     double check_car_s = sensor_fusion[i][5];
                     check_car_s += ((double)prev_size*0.02*check_speed);
                     //check s value greater than mine and s gap
-                    if(check_car_s > car_s &&  check_car_s-car_s<40)
+                    if(check_car_s > car_s &&  check_car_s-car_s<30)
                     {
                         too_close = true;
                         if(lane==0 || lane==2)
@@ -269,7 +269,7 @@ int main() {
                                     double check_speed = sqrt(vx*vx+vy*vy);
                                     double check_car_s = sensor_fusion[j][5];
                                     check_car_s += ((double)prev_size*0.02*check_speed);
-                                    if(check_car_s > car_s-6 &&  check_car_s-car_s<20)
+                                    if(check_car_s > car_s-6 &&  check_car_s-car_s<40)
                                     {
                                         isLane1ocuupied = true;
                                         break;
@@ -296,7 +296,7 @@ int main() {
                                         double check_speed = sqrt(vx*vx+vy*vy);
                                         double check_car_s = sensor_fusion[j][5];
                                         check_car_s += ((double)prev_size*0.02*check_speed);
-                                        if(check_car_s > car_s-6 &&  check_car_s-car_s<20)
+                                        if(check_car_s > car_s-6 &&  check_car_s-car_s<40)
                                         {
                                             isLane1ocuupied[k] = true;
                                             break;
@@ -317,7 +317,7 @@ int main() {
             {
                 ref_vel -= 0.15;
             }
-            else if(ref_vel<9.8){
+            else if(ref_vel<22){
                 ref_vel += 0.15;
             }
             //ref_vel = 10;
@@ -384,7 +384,7 @@ int main() {
             double target_dist = sqrt(target_x*target_x+target_y*target_y);
             double x_add_on = 0;
             for (int m = 1; m <= 50 - previous_path_x.size(); ++m) {
-                double N = (target_dist/(0.02*ref_vel)/2.24);
+                double N = (target_dist/(0.02*ref_vel));
                 double x_point = x_add_on + target_x/N;
                 double y_point = s(x_point);
                 x_add_on = x_point;

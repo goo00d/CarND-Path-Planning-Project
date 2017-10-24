@@ -12,9 +12,23 @@ Each waypoint in the list contains  [x,y,s,dx,dy] values. x and y are the waypoi
 
 The highway's waypoints loop around so the frenet s value, distance along the road, goes from 0 to 6945.554.
 ### Model Documentation
-I generate path used previous path points and forward 30,60,90 meters in s of frenet,and advance d by change lane value,then convert s and d in frenet to world coodinates,then use spline to fit these points.
+I use a simple policy for lane change.
+If there is no car in front of 30m distance,then keep in lane;
+If there is a car in font,then look up adjacent lane,if there is enough space for change lane,then change lane,as show in picture below,my setting is if -6m and 40m space is no car,then select one lane to change.
+Above logic is implemented in source code line 244~314 of main.cpp. 
+![Behavior plan](behavior-policy.jpg)
 
-Use fitted spline,and define a speed and a target distance 30 meters to interplot spline,to generate path,spline can deal with jerk naturally,so not worried jerk at all. 
+If maneuver to take is decided,the trajectory generate shown in below picture.
+If car don't have previous paths,use current car position and direction and deduce previous postion  and direction as trajectory start state points.
+if car have previous paths and previous paht size bigger than 2,then use last 2 points as start points of trajectory.
+Above logic is implemented in line 330~349.
+After first 2 points decided,then follow behavior generate 30m,60m,90m in s of frenet coordinate then convert to car localcoordinates.,
+As shown in picture,O,P,Q,R,S is the points to fit spline.After spline is fitted,choose P and Q points,and mimic car drive with ref_vel speed,and take a snap shot every 0.02 seconds.
+Use previous paths as start,and generate 50-prev_size with spline and ref_vel speed.Then convert coordinates from car local coordinate to world coordinate.
+Above logic is implemented in line 350~403.  
+![Trajectory generate](trajectory-gen.jpg)
+
+
 ## Basic Build Instructions
 
 1. Clone this repo.
